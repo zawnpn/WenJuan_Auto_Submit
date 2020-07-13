@@ -9,12 +9,13 @@ from email.mime.text import MIMEText
 from email.utils import parseaddr, formataddr
 import smtplib
 
-QUESTION_ID = 84119014
-QUESTION_URL = 'https://www.wjx.top/jq/%s.aspx' % QUESTION_ID
-POST_URL_MAP = "https://www.wjx.top/joinnew/processjq.ashx?submittype=1&curID={}&t={}&starttime={}&rn={}"
-UPMULT_URL = 'https://www.wjx.top/wjx/join/uploadMultiple.aspx?activity=%s&q=7&ms=4096&length=1' % QUESTION_ID
+QUESTION_ID = 83987227
+QUESTION_URL = 'https://www.wjx.cn/jq/%s.aspx' % QUESTION_ID
+POST_URL_MAP = "https://www.wjx.cn/joinnew/processjq.ashx?submittype=1&curID={}&t={}&starttime={}&rn={}"
+UPMULT_URL = 'https://www.wjx.cn/wjx/join/uploadMultiple.aspx?activity=%s&q=7&ms=4096&length=1' % QUESTION_ID
 UPPIC_URL = 'https://wjx-z0.qiniup.com/'
 PIC_NAME = 'upload.png'
+PIC_PATH = '/home/xxx/upload.png'
 ANSWER = [ # 问卷的具体答案
     '姓名',
     '手机',
@@ -56,7 +57,7 @@ def parse_pic_data(resp):
     suffix = PIC_NAME.split('.')[1]
     fname = up_dir + t + salt + '.' + suffix
     pic_file = {
-        'file':(PIC_NAME, open(PIC_NAME, 'rb'), 'image/' + suffix, {})
+        'file':(PIC_NAME, open(PIC_PATH, 'rb'), 'image/' + suffix, {})
     }
     pic_data = {
         'name': PIC_NAME,
@@ -124,6 +125,7 @@ def main():
     post_data = form_post_data(resp)
     r = session.post(post_url, post_data)
     
+    # 若不需要发邮件功能，请注释掉下面几行
     if r.status_code == 200:
         send_notification()
         print('Success.')
